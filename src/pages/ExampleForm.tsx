@@ -5,18 +5,40 @@ import * as zod from 'zod';
 
 const newDefaultFormValidationSchema = zod.object({
   name: zod.string().min(1, 'Name is required my friend!!!'),
-  email: zod.string().min(1),
+  email: zod.string().min(1).email(),
   password: zod.string().min(1),
   age: zod.number().min(1).max(100),
   birthdate: zod.date(),
 });
 
-export function ExampleForm() {
-  const { register, handleSubmit, watch, formState } = useForm({
-    resolver: zodResolver(newDefaultFormValidationSchema),
-  });
+// interface ExampleFormData {
+//   name: string;
+//   email: string;
+//   password: string;
+//   age: number;
+//   birthdate: Date;
+// }
 
-  function handleFormSubmit(data: any) {
+// Um atalho para criar a interface acima "automágicamente", pode usar o código abaixo a partir do 
+// zod para criar a tipagem do formulário
+
+type ExampleFormData = zod.infer<typeof newDefaultFormValidationSchema>
+
+export function ExampleForm() {
+  const { register, handleSubmit, watch, formState } = useForm<ExampleFormData>(
+    {
+      resolver: zodResolver(newDefaultFormValidationSchema),
+      defaultValues: {
+        name: '',
+        email: '',
+        password: '',
+        age: 0,
+        birthdate: new Date(),
+      }
+    }
+  );
+
+  function handleFormSubmit(data: ExampleFormData) {
     console.log(data);
   }
 
