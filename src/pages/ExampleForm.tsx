@@ -25,14 +25,14 @@ const newDefaultFormValidationSchema = zod.object({
 type ExampleFormData = zod.infer<typeof newDefaultFormValidationSchema>
 
 export function ExampleForm() {
-  const { register, handleSubmit, watch, formState } = useForm<ExampleFormData>(
+  const { register, handleSubmit, watch, formState, reset } = useForm<ExampleFormData>(
     {
       resolver: zodResolver(newDefaultFormValidationSchema),
       defaultValues: {
         name: '',
         email: '',
         password: '',
-        age: 0,
+        age: undefined,
         birthdate: new Date(),
       }
     }
@@ -40,6 +40,10 @@ export function ExampleForm() {
 
   function handleFormSubmit(data: ExampleFormData) {
     console.log(data);
+  }
+
+  function resetForm(){
+    reset()
   }
 
   console.log(formState.errors);
@@ -90,6 +94,8 @@ export function ExampleForm() {
         <button type='submit' disabled={isSubmitButtonDisabled}>
           Enviar
         </button>
+
+        <button onClick={resetForm}>Reset Form</button>
       </form>
     </>
   );
