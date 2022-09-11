@@ -1,11 +1,11 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 
 export function Header() {
   return (
     <>
+      <h1>Forms</h1>
       <nav>
-        <NavLink to="/controlled-form">Controlled Form</NavLink> | 
-        <NavLink to="/uncontrolled-form">Uncontrolled Form</NavLink> 
+        <NavLink to='/'>Home</NavLink> |
       </nav>
     </>
   );
